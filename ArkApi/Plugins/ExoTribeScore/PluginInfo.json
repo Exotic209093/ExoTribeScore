@@ -1,0 +1,7 @@
+{
+  "FullName": "ExoTribeScore",
+  "Description": "Tracks tribe score from PvP structure destruction.",
+  "Version": 1.0,
+  "MinApiVersion": 3.55,
+  "Dependencies": []
+}

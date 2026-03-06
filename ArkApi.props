@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="ArkApi">
+    <ArkApiRoot Condition="'$(ArkApiRoot)' == '' and '$(ARKAPI_ROOT)' != ''">$(ARKAPI_ROOT)</ArkApiRoot>
+    <ArkApiRoot Condition="'$(ArkApiRoot)' == ''">E:\My projects\C++\ARK-Server-API-master\ARK-Server-API-master</ArkApiRoot>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ArkApiRoot)\version\Core\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ArkApiRoot)\out_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ArkApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>
