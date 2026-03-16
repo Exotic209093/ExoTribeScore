@@ -290,7 +290,7 @@ ConfigLoadResult ConfigService::Load() const
 
 	ValidateObjectKeys(
 		root,
-		{ "version", "score_floor", "leaderboard_limit", "floating_text", "messages", "structures" },
+		{ "version", "score_floor", "leaderboard_limit", "mysql", "floating_text", "messages", "structures" },
 		result.errors,
 		"Root config");
 
@@ -341,6 +341,129 @@ ConfigLoadResult ConfigService::Load() const
 	else
 	{
 		config->leaderboard_limit = root["leaderboard_limit"].get<int>();
+	}
+
+	if (!root.contains("mysql"))
+	{
+		AddError(result.errors, "Root config is missing required field 'mysql'");
+	}
+	else if (!root["mysql"].is_object())
+	{
+		AddError(result.errors, "Field 'mysql' must be a JSON object");
+	}
+	else
+	{
+		const auto& mysql = root["mysql"];
+		ValidateObjectKeys(
+			mysql,
+			{
+				"driver",
+				"host",
+				"port",
+				"database",
+				"username",
+				"password",
+				"table_prefix",
+				"connection_timeout_seconds"
+			},
+			result.errors,
+			"Field 'mysql'");
+
+		auto read_non_empty_string = [&result, &mysql](const char* field_name, std::string* target)
+		{
+			if (!mysql.contains(field_name))
+			{
+				AddError(result.errors, "Field 'mysql' is missing required field '" + std::string(field_name) + "'");
+				return;
+			}
+
+			if (!mysql[field_name].is_string() || Trim(mysql[field_name].get<std::string>()).empty())
+			{
+				AddError(result.errors, "Field 'mysql." + std::string(field_name) + "' must be a non-empty string");
+				return;
+			}
+
+			*target = Trim(mysql[field_name].get<std::string>());
+		};
+
+		read_non_empty_string("driver", &config->mysql.driver);
+		read_non_empty_string("host", &config->mysql.host);
+		read_non_empty_string("database", &config->mysql.database);
+		read_non_empty_string("username", &config->mysql.username);
+
+		if (!mysql.contains("password"))
+		{
+			AddError(result.errors, "Field 'mysql' is missing required field 'password'");
+		}
+		else if (!mysql["password"].is_string())
+		{
+			AddError(result.errors, "Field 'mysql.password' must be a string");
+		}
+		else
+		{
+			config->mysql.password = mysql["password"].get<std::string>();
+		}
+
+		if (!mysql.contains("port"))
+		{
+			AddError(result.errors, "Field 'mysql' is missing required field 'port'");
+		}
+		else if (!mysql["port"].is_number_integer())
+		{
+			AddError(result.errors, "Field 'mysql.port' must be an integer");
+		}
+		else if (mysql["port"].get<int>() <= 0 || mysql["port"].get<int>() > 65535)
+		{
+			AddError(result.errors, "Field 'mysql.port' must be between 1 and 65535");
+		}
+		else
+		{
+			config->mysql.port = mysql["port"].get<int>();
+		}
+
+		if (!mysql.contains("connection_timeout_seconds"))
+		{
+			AddError(result.errors, "Field 'mysql' is missing required field 'connection_timeout_seconds'");
+		}
+		else if (!mysql["connection_timeout_seconds"].is_number_integer())
+		{
+			AddError(result.errors, "Field 'mysql.connection_timeout_seconds' must be an integer");
+		}
+		else if (mysql["connection_timeout_seconds"].get<int>() <= 0)
+		{
+			AddError(result.errors, "Field 'mysql.connection_timeout_seconds' must be greater than 0");
+		}
+		else
+		{
+			config->mysql.connection_timeout_seconds = mysql["connection_timeout_seconds"].get<int>();
+		}
+
+		if (!mysql.contains("table_prefix"))
+		{
+			AddError(result.errors, "Field 'mysql' is missing required field 'table_prefix'");
+		}
+		else if (!mysql["table_prefix"].is_string())
+		{
+			AddError(result.errors, "Field 'mysql.table_prefix' must be a string");
+		}
+		else
+		{
+			config->mysql.table_prefix = Trim(mysql["table_prefix"].get<std::string>());
+			if (config->mysql.table_prefix.empty())
+			{
+				AddError(result.errors, "Field 'mysql.table_prefix' must not be empty");
+			}
+			else if (!std::all_of(
+						 config->mysql.table_prefix.begin(),
+						 config->mysql.table_prefix.end(),
+						 [](unsigned char character)
+						 {
+							 return std::isalnum(character) != 0 || character == '_';
+						 }))
+			{
+				AddError(result.errors, "Field 'mysql.table_prefix' may contain only letters, numbers, and underscores");
+			}
+		}
 	}
 
 	if (!root.contains("floating_text"))

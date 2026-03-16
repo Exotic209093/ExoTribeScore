@@ -47,9 +47,7 @@ ExoTribeScorePlugin& ExoTribeScorePlugin::Get()
 }
 
 ExoTribeScorePlugin::ExoTribeScorePlugin()
-	: tribe_score_service_(
-		  std::filesystem::path("ArkApi") / "Plugins" / kPluginName / "config.json",
-		  std::filesystem::path("ArkApi") / "Plugins" / kPluginName / "scores.json")
+	: tribe_score_service_(std::filesystem::path("ArkApi") / "Plugins" / kPluginName / "config.json")
 {
 }
 

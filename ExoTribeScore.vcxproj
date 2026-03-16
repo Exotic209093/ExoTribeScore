@@ -58,6 +58,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
@@ -78,6 +79,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
@@ -99,7 +101,6 @@
     <None Include="ArkApi.props" />
     <None Include="ArkApi\Plugins\ExoTribeScore\config.json" />
     <None Include="ArkApi\Plugins\ExoTribeScore\PluginInfo.json" />
-    <None Include="ArkApi\Plugins\ExoTribeScore\scores.json" />
     <None Include="README.md" />
   </ItemGroup>
 

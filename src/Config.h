@@ -35,11 +35,24 @@ struct MessageTemplates
 	std::string victim = "-{amount} Tribe Score";
 };
 
+struct MySqlConnectionSettings
+{
+	std::string driver = "MySQL ODBC 8.0 Unicode Driver";
+	std::string host = "127.0.0.1";
+	int port = 3306;
+	std::string database = "ark";
+	std::string username = "root";
+	std::string password;
+	std::string table_prefix = "exotribescore_";
+	int connection_timeout_seconds = 5;
+};
+
 struct ScoreConfig
 {
 	int version = 1;
 	int score_floor = 0;
 	int leaderboard_limit = 10;
+	MySqlConnectionSettings mysql;
 	FloatingTextSettings floating_text;
 	MessageTemplates messages;
 	std::unordered_map<std::string, StructureScoreRule> structures;

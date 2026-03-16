@@ -2,6 +2,16 @@
   "version": 1,
   "score_floor": 0,
   "leaderboard_limit": 10,
+  "mysql": {
+    "driver": "MySQL ODBC 8.0 Unicode Driver",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "ark",
+    "username": "root",
+    "password": "change-me",
+    "table_prefix": "exotribescore_",
+    "connection_timeout_seconds": 5
+  },
   "floating_text": {
     "positive_color": {
       "r": 90,

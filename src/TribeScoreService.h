@@ -22,6 +22,7 @@ public:
 	{
 		std::shared_ptr<const ScoreConfig> config;
 		TWeakObjectPtr<AShooterPlayerController> attacker_player_controller;
+		std::string blueprint;
 		FVector location = FVector(0.0f, 0.0f, 0.0f);
 		int attacker_tribe_id = 0;
 		int victim_tribe_id = 0;
@@ -29,7 +30,7 @@ public:
 		bool valid = false;
 	};
 
-	TribeScoreService(std::filesystem::path config_path, std::filesystem::path scores_path);
+	explicit TribeScoreService(std::filesystem::path config_path);
 
 	void LoadInitialState();
 	FString ReloadConfig();
@@ -60,15 +61,14 @@ private:
 	};
 
 	FString ReloadConfigInternal(bool startup);
-	void LoadScores();
 	void ClampScoresToFloor(int score_floor);
 	std::shared_ptr<const ScoreConfig> GetConfigSnapshot() const;
 
 	std::string GetStructureBlueprint(APrimalStructure* structure) const;
 	AttackContext ResolveAttackContext(APrimalStructure* victim, AController* killer, AActor* damage_causer) const;
 	std::string ResolveTribeName(int tribe_id, const std::string& fallback = {}) const;
-	void PersistScoresSnapshot(const std::unordered_map<int, TribeScoreEntry>& snapshot) const;
-	void RefreshStoredTribeName(int tribe_id, const std::string& live_name) const;
+	bool TryBuildTribeMemberRecords(int tribe_id, const std::string& updated_at, std::vector<TribeMemberRecord>* members) const;
+	std::string GetCurrentMapName() const;
 	float GetVictimNotificationRange() const;
 	std::vector<AShooterPlayerController*> GetNearbyOnlineTribeMembers(int tribe_id, const FVector& location) const;
 	void ShowFloatingText(
