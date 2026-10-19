@@ -1,6 +1,6 @@
 # Configuration
 
-The runtime config file is [config.json](E:\My projects\Ark Plugins\ExoTribeScore\ArkApi\Plugins\ExoTribeScore\config.json).
+The runtime config file is [config.json](../ArkApi/Plugins/ExoTribeScore/config.json).
 
 ## Full Shape
 
