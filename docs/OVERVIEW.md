@@ -25,13 +25,13 @@ When a configured enemy structure is destroyed:
 
 ## Main Components
 
-- [Plugin.cpp](E:\My projects\Ark Plugins\ExoTribeScore\src\Plugin.cpp)
+- [Plugin.cpp](../src/Plugin.cpp)
   Handles plugin bootstrap, hook registration, chat command registration, and reload command plumbing.
-- [Config.cpp](E:\My projects\Ark Plugins\ExoTribeScore\src\Config.cpp)
+- [Config.cpp](../src/Config.cpp)
   Parses and validates the JSON config contract.
-- [TribeScoreService.cpp](E:\My projects\Ark Plugins\ExoTribeScore\src\TribeScoreService.cpp)
+- [TribeScoreService.cpp](../src/TribeScoreService.cpp)
   Owns the gameplay logic: attack attribution, tribe score changes, floating text, tribe name refresh, and leaderboard text generation.
-- [ScoreStore.cpp](E:\My projects\Ark Plugins\ExoTribeScore\src\ScoreStore.cpp)
+- [ScoreStore.cpp](../src/ScoreStore.cpp)
   Owns MySQL persistence through ODBC.
 
 ## Public Interfaces

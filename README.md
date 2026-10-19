@@ -4,10 +4,10 @@ ArkApi plugin for ARK: Survival Evolved that tracks tribe score from PvP structu
 
 ## Documentation
 
-- [Overview](E:\My projects\Ark Plugins\ExoTribeScore\docs\OVERVIEW.md)
-- [Configuration](E:\My projects\Ark Plugins\ExoTribeScore\docs\CONFIGURATION.md)
-- [Database](E:\My projects\Ark Plugins\ExoTribeScore\docs\DATABASE.md)
-- [Code Audit](E:\My projects\Ark Plugins\ExoTribeScore\docs\AUDIT.md)
+- [Overview](docs/OVERVIEW.md)
+- [Configuration](docs/CONFIGURATION.md)
+- [Database](docs/DATABASE.md)
+- [Code Audit](docs/AUDIT.md)
 
 ## What v1 supports
 
